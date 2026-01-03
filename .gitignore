@@ -1,0 +1,21 @@
+# System
+.DS_Store
+.env
+
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/uploads/
+!backend/uploads/.gitkeep
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.DS_Store
+
+# Video
+*.mp4
+*.mov
