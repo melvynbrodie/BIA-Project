@@ -242,7 +242,7 @@ export function MetricsCharts({ companyName, refreshKey }: { companyName: string
                                 formatter={(value: number) => `${value.toFixed(1)}%`}
                             />
                             <Area type="monotone" dataKey="value" name="RoE" stroke="#EC4899" strokeWidth={2} fillOpacity={1} fill="url(#colorRoE)">
-                                <LabelList dataKey="value" position="top" fill="#D1D5DB" fontSize={12} offset={10} formatter={(val: number) => `${val.toFixed(1)}%`} />
+                                <LabelList dataKey="value" position="top" fill="#D1D5DB" fontSize={12} offset={10} formatter={(val: any) => `${val.toFixed(1)}%`} />
                             </Area>
                         </AreaChart>
                     </ResponsiveContainer>
