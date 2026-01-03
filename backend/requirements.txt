@@ -8,3 +8,4 @@ pdfplumber
 python-multipart
 pgvector
 requests
+yfinance
