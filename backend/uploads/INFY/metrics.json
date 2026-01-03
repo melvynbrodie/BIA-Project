@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "currency_symbol": "\u20b9",
+    "currency_unit": "Crores"
+  },
+  "revenue": {
+    "data": [
+      {
+        "year": "FY25",
+        "value": 162990
+      },
+      {
+        "year": "FY24",
+        "value": 153670
+      }
+    ],
+    "citation": "Page 30"
+  },
+  "operating_profit": {
+    "data": [],
+    "citation": ""
+  },
+  "eps": {
+    "data": [
+      {
+        "year": "FY25",
+        "value": 64.5
+      },
+      {
+        "year": "FY24",
+        "value": 63.39
+      }
+    ],
+    "citation": "Page 30"
+  },
+  "cash_flow": {
+    "data": [],
+    "citation": ""
+  },
+  "roe": {
+    "data": [
+      {
+        "year": "FY25",
+        "value": 29.0
+      }
+    ],
+    "citation": "Page 22"
+  },
+  "summary": "Infosys's Integrated Annual Report 2024-25 highlights a year of strong execution with a 4.2% revenue growth in constant currency, an operating margin of 21.1%, and free cash flow of US$4.1 billion. The company is focusing on leveraging AI, cloud, and data through Infosys Topaz and Cobalt capabilities to drive value for clients and create new opportunities, while also emphasizing cost efficiency, automation, and productivity improvements. The company also focuses on its ESG vision and sustainability initiatives.",
+  "verified": true
+}
