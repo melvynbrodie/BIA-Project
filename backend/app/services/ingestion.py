@@ -6,6 +6,7 @@ import re
 import csv
 from pathlib import Path
 import pdfplumber
+import pypdf
 from app.services.gemini import generate_embeddings, generate_content
 from app.models.schema import DocumentChunk, Filing
 from app.core.prompts import METRICS_EXTRACTION_PROMPT, VERIFICATION_PROMPT
@@ -28,18 +29,39 @@ def save_upload_file(upload_file, company_ticker: str) -> Path:
 
 def extract_text_from_pdf(file_path: Path):
     text_content = []
+    
+    # 1. High-Quality Parsing for Key Financials (Pages 1-100)
     try:
         with pdfplumber.open(file_path) as pdf:
-             # Extract first 50 pages + any pages mentioned in prompt if possible (hard to know before extraction)
-            # Extract first 100 pages to save RAM (Render Free Tier Limit)
+            # First 100 pages: Use pdfplumber (heavy, good with tables)
             pages_to_extract = pdf.pages[:100] 
             for i, page in enumerate(pages_to_extract):
                 text = page.extract_text()
                 if text:
                     content = f"[Page {i+1}]\n{text}"
                     text_content.append({"page": i + 1, "text": content})
+            
+            # Check if there are more pages
+            total_pages = len(pdf.pages)
     except Exception as e:
-        print(f"Error extracting PDF: {e}")
+        print(f"Error with pdfplumber: {e}")
+        return text_content # Return what we have
+
+    # 2. Lightweight Parsing for the Rest (Pages 101+)
+    if total_pages > 100:
+        print(f"Switching to lightweight parsing for pages 101 to {total_pages}...")
+        try:
+            reader = pypdf.PdfReader(file_path)
+            # pypdf pages are 0-indexed, so we start from index 100 (which is page 101)
+            for i in range(100, len(reader.pages)):
+                page = reader.pages[i]
+                text = page.extract_text()
+                if text:
+                    content = f"[Page {i+1}]\n{text}"
+                    text_content.append({"page": i + 1, "text": content})
+        except Exception as e:
+            print(f"Error with pypdf: {e}")
+
     return text_content
 
 def chunk_text(text_pages, chunk_size=1000, overlap=100):
