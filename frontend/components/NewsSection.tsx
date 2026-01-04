@@ -9,7 +9,8 @@ export function NewsSection({ companyName }: { companyName: string }) {
     const [news, setNews] = useState<any[]>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/v1/company/${companyName}/news`)
+        const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
+        fetch(`${API_BASE_URL}/api/v1/company/${companyName}/news`)
             .then(res => res.json())
             .then(setNews)
             .catch(console.error);

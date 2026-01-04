@@ -24,7 +24,7 @@ export function CompanyProfile({ companyId }: { companyId: string }) {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+                const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
                 const res = await fetch(`${API_BASE_URL}/api/v1/company/${companyId}/metrics`);
                 const data = await res.json();
                 if (data.profile) setProfile(data.profile);

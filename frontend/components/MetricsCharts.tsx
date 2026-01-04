@@ -41,12 +41,13 @@ export function MetricsCharts({ companyName, refreshKey }: { companyName: string
     const [stockData, setStockData] = useState<any>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/v1/company/${companyName}/metrics?t=${refreshKey}`)
+        const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
+        fetch(`${API_BASE_URL}/api/v1/company/${companyName}/metrics?t=${refreshKey}`)
             .then(res => res.json())
             .then(setData)
             .catch(console.error);
 
-        fetch(`http://localhost:8000/api/v1/company/${companyName}/stock`)
+        fetch(`${API_BASE_URL}/api/v1/company/${companyName}/stock`)
             .then(res => res.json())
             .then(setStockData)
             .catch(console.error);
@@ -79,7 +80,8 @@ export function MetricsCharts({ companyName, refreshKey }: { companyName: string
     const isVerified = data.verified === true;
 
     const handleDownloadVerification = () => {
-        window.open(`http://localhost:8000/api/v1/company/${companyName}/verification_sheet`, "_blank");
+        const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
+        window.open(`${API_BASE_URL}/api/v1/company/${companyName}/verification_sheet`, "_blank");
     };
 
     // Helper for explicit 50% Top Padding

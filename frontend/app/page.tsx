@@ -94,7 +94,8 @@ export default function Home() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/company/${companyId}/status`);
+        const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
+        const res = await fetch(`${API_BASE_URL}/api/v1/company/${companyId}/status`);
         const data = await res.json();
         console.log("Polling Status:", data.status);
 
@@ -122,7 +123,8 @@ export default function Home() {
     formData.append("period", "FY25");
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/upload`, { method: "POST", body: formData });
+      const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
+      const res = await fetch(`${API_BASE_URL}/api/v1/upload`, { method: "POST", body: formData });
       if (res.ok) {
         const data = await res.json();
         console.log("Detected Company:", data.company_id);
@@ -150,7 +152,8 @@ export default function Home() {
     setLoadingAnalysis(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/analyze`, {
+      const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000').replace(/\/$/, "");
+      const res = await fetch(`${API_BASE_URL}/api/v1/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
