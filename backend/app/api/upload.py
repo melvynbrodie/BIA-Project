@@ -14,8 +14,8 @@ router = APIRouter()
 async def upload_filing(
     background_tasks: BackgroundTasks, 
     file: UploadFile = File(...),
-    company_id: str = Form(...),
-    period: str = Form(...)
+    company_id: str | None = Form(None),
+    period: str | None = Form(None)
 ):
     print(f"DEBUG: Received upload request. File: {file.filename}, Company: {company_id}")
     # 1. Identify Company (Optimized for Free Tier)

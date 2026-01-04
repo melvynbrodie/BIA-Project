@@ -31,8 +31,8 @@ def extract_text_from_pdf(file_path: Path):
     try:
         with pdfplumber.open(file_path) as pdf:
              # Extract first 50 pages + any pages mentioned in prompt if possible (hard to know before extraction)
-             # Limiting to 250 for now
-            pages_to_extract = pdf.pages[:250] 
+            # Extract first 100 pages to save RAM (Render Free Tier Limit)
+            pages_to_extract = pdf.pages[:100] 
             for i, page in enumerate(pages_to_extract):
                 text = page.extract_text()
                 if text:
