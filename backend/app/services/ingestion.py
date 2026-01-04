@@ -29,39 +29,18 @@ def save_upload_file(upload_file, company_ticker: str) -> Path:
 
 def extract_text_from_pdf(file_path: Path):
     text_content = []
-    
-    # 1. High-Quality Parsing for Key Financials (Pages 1-100)
     try:
         with pdfplumber.open(file_path) as pdf:
-            # First 50 pages: Use pdfplumber (heavy, good with tables)
-            pages_to_extract = pdf.pages[:50] 
-            for i, page in enumerate(pages_to_extract):
+            # User requsted 100% High-Quality Parsing (Requires >1GB RAM)
+            # Analysing entire document with pdfplumber
+            for i, page in enumerate(pdf.pages):
                 text = page.extract_text()
                 if text:
                     content = f"[Page {i+1}]\n{text}"
                     text_content.append({"page": i + 1, "text": content})
-            
-            # Check if there are more pages
-            total_pages = len(pdf.pages)
+                    
     except Exception as e:
-        print(f"Error with pdfplumber: {e}")
-        return text_content # Return what we have
-
-    # 2. Lightweight Parsing for the Rest (Pages 51+)
-    if total_pages > 50:
-        print(f"Switching to lightweight parsing for pages 51 to {total_pages}...")
-        try:
-            reader = pypdf.PdfReader(file_path)
-            # pypdf pages are 0-indexed, so we start from index 50 (which is page 51)
-            for i in range(50, len(reader.pages)):
-                page = reader.pages[i]
-                text = page.extract_text()
-                if text:
-                    content = f"[Page {i+1}]\n{text}"
-                    text_content.append({"page": i + 1, "text": content})
-        except Exception as e:
-            print(f"Error with pypdf: {e}")
-
+        print(f"Error extracting PDF: {e}")
     return text_content
 
 def chunk_text(text_pages, chunk_size=1000, overlap=100):
