@@ -33,8 +33,8 @@ def extract_text_from_pdf(file_path: Path):
     # 1. High-Quality Parsing for Key Financials (Pages 1-100)
     try:
         with pdfplumber.open(file_path) as pdf:
-            # First 100 pages: Use pdfplumber (heavy, good with tables)
-            pages_to_extract = pdf.pages[:100] 
+            # First 50 pages: Use pdfplumber (heavy, good with tables)
+            pages_to_extract = pdf.pages[:50] 
             for i, page in enumerate(pages_to_extract):
                 text = page.extract_text()
                 if text:
@@ -47,13 +47,13 @@ def extract_text_from_pdf(file_path: Path):
         print(f"Error with pdfplumber: {e}")
         return text_content # Return what we have
 
-    # 2. Lightweight Parsing for the Rest (Pages 101+)
-    if total_pages > 100:
-        print(f"Switching to lightweight parsing for pages 101 to {total_pages}...")
+    # 2. Lightweight Parsing for the Rest (Pages 51+)
+    if total_pages > 50:
+        print(f"Switching to lightweight parsing for pages 51 to {total_pages}...")
         try:
             reader = pypdf.PdfReader(file_path)
-            # pypdf pages are 0-indexed, so we start from index 100 (which is page 101)
-            for i in range(100, len(reader.pages)):
+            # pypdf pages are 0-indexed, so we start from index 50 (which is page 51)
+            for i in range(50, len(reader.pages)):
                 page = reader.pages[i]
                 text = page.extract_text()
                 if text:
