@@ -52,7 +52,14 @@ async def upload_filing(
 
         except Exception as e:
             print(f"AI Detection skipped/failed: {e}")
-            detected_company_id = "UNKNOWN"
+            detected_company_id = None # Try filename next
+
+    if not detected_company_id or detected_company_id == "UNKNOWN":
+        # Fallback to Filename (remove extension, upper case)
+        # e.g. "airtle.pdf" -> "AIRTLE"
+        clean_name = file.filename.rsplit('.', 1)[0].upper().replace(" ", "_")
+        detected_company_id = clean_name
+        print(f"DEBUG: Fallback to filename: {detected_company_id}")
 
     if not detected_company_id:
         detected_company_id = "UNKNOWN_COMPANY"
